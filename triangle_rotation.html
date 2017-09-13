@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Triangle Rotation</title>
+   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1"> 
+    <script src="js/three.min.js"></script>
+    <style>
+    body{
+        background-color:#000000;
+        overflow:hidden;
+    }
+    </style>
+    </head>
+    <body>
+    <script>
+        var camera,scene,renderer,triangleMesh;
+        init();
+        animate();
+        function init(){
+            console.log("init");
+            renderer=new THREE.WebGLRenderer();
+            
+            renderer.setSize(window.innerWidth,window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+             camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,100);
+             scene=new THREE.Scene();
+            camera.position.z=10;
+            var triangle=new THREE.Geometry();
+             triangle.vertices.push(new THREE.Vector3( 0.0,  1.0, 0.0)); 
+             triangle.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0)); 
+             triangle.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0)); 
+             triangle.faces.push(new THREE.Face3(0, 1, 2));
+             triangle.faces[0].vertexColors[0] = new THREE.Color(0xFF0000); 
+             triangle.faces[0].vertexColors[1] = new THREE.Color(0x00FF00); 
+             triangle.faces[0].vertexColors[2] = new THREE.Color(0x0000FF); 
+            var triangleMaterial=new THREE.MeshBasicMaterial({
+                vertexColors:THREE.VertexColors,
+                side:THREE.DoubleSide
+            });
+            triangleMesh= new THREE.Mesh(triangle,triangleMaterial);
+            triangleMesh.position.set(0,0,4);
+            scene.add(triangleMesh);
+        }
+        function animate(){
+            triangleMesh.rotation.z+= 0.1; 
+            
+            requestAnimationFrame(animate);
+            renderer.render(scene,camera);
+        }
+                
+        </script>
+    </body>
+</html>
